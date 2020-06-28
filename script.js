@@ -13,7 +13,6 @@ function start() {
     friction = document.querySelector("#friction").value * 0.1;
     preFic = friction;
     setup();
-
 }
 
 function setup() {
@@ -26,7 +25,7 @@ function setup() {
 }
 
 function draw() {
-    if (vy > -0.1 && vy < 0.1) {
+    if (vy > -0.1 && vy < 0.1) { //  check for infinite bouncing
         if (Math.abs(cnv.height - radius - y) < 5) {
             y = cnv.height - radius;
             vy = 0;
@@ -39,25 +38,26 @@ function draw() {
     ctx.fillStyle = "lime";
     ctx.fill();
     x += vx;
-    if (y >= cnv.height - radius || y <= radius) {
+
+    if (y >= cnv.height - radius || y <= radius) { // bounce on touch with the bottom and top
         vy = -(vy - 2 * grav - (vy * friction));
         y = cnv.height - radius;
         vx = (vx - vx * friction);
     }
-    if (y < cnv.height - radius || y > radius) {
-        y += vy;
-        vy += grav;
-    }
-    if (x >= cnv.width - radius || x <= radius) {
+    y += vy;
+    vy += grav;
+
+    if (x >= cnv.width - radius || x <= radius) { // bounce on touch with the walls
         vx = -(vx - vx * friction);
         vy = (vy + 3 * grav / 2 - vy * friction);
     }
-    if (preFic != document.querySelector("#friction").value * 0.1) {
+
+    if (preFic != document.querySelector("#friction").value * 0.1) { // look for change of friction by user
         start();
     }
 }
 
-function setBackground() {
+function setBackground() { // Checked background full screen
     back = document.querySelector("#background");
     back.width = window.innerWidth;
     back.height = window.innerHeight;
